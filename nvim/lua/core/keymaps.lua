@@ -1,5 +1,6 @@
 
-vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
+-- Remove this if oil becomes default
+-- vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
 
 -- Moving visual selection
 vim.keymap.set('v', 'J', ':m \'>+1<CR>gv=gv')
@@ -67,6 +68,10 @@ vim.keymap.set('n', '<leader>gn', function()
     gitsigns().next_hunk()
 end, { desc = 'Go to next hunk' })
 
+--------------------------------------
+--- oil.nvim
+--------------------------------------
+vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
 --------------------------------------
 -- anchor
