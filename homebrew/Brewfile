@@ -4,6 +4,7 @@ tap "homebrew/cask-fonts"
 # Formulas
 brew "awscli"
 brew "git"
+brew="gh"
 brew "neovim"
 brew "node"
 brew "ripgrep"
