@@ -27,10 +27,6 @@
     "oil.nvim": {
       "rev": "b73018b75affd13fa38e2fc94ef753b465f770d7",
       "src": "https://github.com/stevearc/oil.nvim"
-    },
-    "vim-tpipeline": {
-      "rev": "9c1fc6a9aed96a6ff5f5cb0420e3760e95dfb1c1",
-      "src": "https://github.com/vimpostor/vim-tpipeline"
     }
   }
 }
