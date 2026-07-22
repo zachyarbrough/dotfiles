@@ -95,3 +95,25 @@ vim.api.nvim_create_autocmd({ 'BufEnter', "BufWinEnter", "InsertLeave" }, {
 	vim.opt_local.conceallevel = 2
     end,
 })
+
+-- --------------------------------------
+-- -- tmux
+-- --------------------------------------
+local function sync_tmux_bg()
+  local bg = vim.api.nvim_get_hl(0, { name = "Normal" }).bg
+
+  if bg then
+    local hex = string.format("#%06x", bg)
+    vim.fn.system("tmux set -g status-style 'bg=" .. hex .. ",fg=white'")
+  end
+end
+
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = sync_tmux_bg,
+})
+
+vim.api.nvim_create_autocmd("VimLeavePre", {
+  callback = function()
+    vim.fn.system("tmux set -g status-style 'bg=default,fg=white'")
+  end,
+})

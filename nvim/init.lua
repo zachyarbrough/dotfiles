@@ -14,7 +14,7 @@ vim.pack.add({
     { src = 'https://github.com/ibhagwan/fzf-lua' },
     { src = 'https://github.com/lewis6991/gitsigns.nvim' },
     { src = 'https://github.com/stevearc/oil.nvim' },
-    { src = 'https://github.com/zachyarbrough/anchor.nvim' }
+    { src = 'https://github.com/zachyarbrough/anchor.nvim' },
 })
 
 vim.cmd.colorscheme 'catppuccin-macchiato'
