@@ -25,7 +25,7 @@ setup_brew_files () {
 
 start_cron_jobs () {
     # Create a cron job for git-backup.sh that will run every hour
-    echo "0 * * * * $HOME/bin/git-backup.sh $HOME/Documents/notes" | crontab -
+    # echo "0 * * * * $HOME/bin/git-backup.sh $HOME/Documents/notes" | crontab -
 }
 
 create_symlinks
