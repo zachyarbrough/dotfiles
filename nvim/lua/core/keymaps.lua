@@ -11,7 +11,10 @@ vim.keymap.set('n', '<C-u>', '10kzz')
 vim.keymap.set('n', 'n', 'nzzzv')
 vim.keymap.set('n', 'N', 'Nzzzv')
 
--- Argument list (native Harpoon-like integration)
+-- Marks
+vim.keymap.set('n', 'M', "'", { desc = 'Jump to Mark' })
+
+-- Argument list (native non-persistant Harpoon-like integration)
 vim.keymap.set('n', '<leader>aa', function()
     vim.cmd('argadd %')
     vim.cmd('argdedup')
@@ -34,11 +37,6 @@ vim.keymap.set('n', 'gh', vim.lsp.buf.hover, { desc = 'View quick definition' })
 
 -- Open diagnostic float on normal mode <leader>e
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
-
--- Love2D keymaps
-vim.keymap.set('n', '<leader>vr', function()
-    vim.fn.jobstart({"love", "."}, { detach = true })
-end)
 
 -- Plugin keymaps
 
@@ -158,15 +156,21 @@ vim.keymap.set('n', '<leader>gc', function()
 end, { desc = 'View git commits' })
 
 -- misc
-vim.keymap.set('n', '<leader>fb', function()
-    fzf().buffers()
-end, { desc = 'Browse open buffers' })
-
 vim.keymap.set('n', '<leader>fa', function()
     fzf().args()
 end, { desc = 'Browse argslist' })
 
+vim.keymap.set('n', '<leader>fj', function()
+    fzf().jumps()
+end, { desc = 'Browse jumpslist' })
+
+vim.keymap.set('n', '<leader>fm', function()
+    fzf().marks({
+	marks = '%a',
+	sort = true
+    })
+end, { desc = 'Browse custom marks' })
+
 vim.keymap.set('n', '<leader>fh', function()
     fzf().help_tags()
 end, { desc = 'Browse neovim\'s documentation' })
-
