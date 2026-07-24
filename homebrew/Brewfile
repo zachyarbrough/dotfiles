@@ -15,6 +15,7 @@ brew "docker-compose"
 brew "docker-buildx"
 brew "docker"
 brew "fzf"
+brew "fd"
 brew "bat"
 brew "aria"
 
