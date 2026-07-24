@@ -184,7 +184,10 @@ vim.keymap.set('n', '<leader>fm', function()
 	    end
 
 	    vim.cmd("wshada!")
-	    fzf().marks(opts)
+
+	    vim.schedule(function()
+		fzf().marks(opts)
+	    end)
 	end,
     }
     fzf().marks(opts)
