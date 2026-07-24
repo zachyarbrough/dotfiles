@@ -4,7 +4,7 @@ tap "homebrew/cask-fonts"
 # Formulas
 brew "awscli"
 brew "git"
-brew="gh"
+brew "gh"
 brew "neovim"
 brew "node"
 brew "ripgrep"
@@ -15,7 +15,8 @@ brew "docker-compose"
 brew "docker-buildx"
 brew "docker"
 brew "fzf"
-brew="aria"
+brew "bat"
+brew "aria"
 
 # LSPs
 brew "lua_language_server"

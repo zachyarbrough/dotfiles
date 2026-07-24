@@ -28,6 +28,20 @@ export TERM=xterm-256color
 
 alias vim='nvim'
 
+# bat
+export BAT_THEME='ansi'
+
+alias cat='bat'
+
+# fzf
+export FZF_CTRL_T_OPTS="--preview 'bat --color=always -n --line-range :500 {} '"
+
+export FZF_DEFAULT_OPTS='--height 50% --layout=default --border'
+export FZF_TMUX_OPTS=' -p90%,70% '
+
+alias f='fzf'
+alias fman='compgen -c | fzf | xargs man'
+
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 plugins=(
