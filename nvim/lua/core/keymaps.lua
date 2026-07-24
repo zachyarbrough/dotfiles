@@ -165,10 +165,29 @@ vim.keymap.set('n', '<leader>fj', function()
 end, { desc = 'Browse jumpslist' })
 
 vim.keymap.set('n', '<leader>fm', function()
-    fzf().marks({
+    local opts = {
 	marks = '%a',
-	sort = true
-    })
+	sort = true,
+	fzf_opts = {
+	    ['--header'] = ":: <\27[1;33mctrl-x\27[0m> to \27[38;2;250;179;135mdelete\27[0m"
+	},
+    }
+
+    opts.actions = {
+	-- Bind CTRL-X to delete the selected mark(s)
+	["ctrl-x"] = function(selected)
+	    for _, entry in ipairs(selected) do
+		local mark = entry:match("^%s*([a-zA-Z])")
+		if mark then
+		    vim.cmd("delmarks " .. mark)
+		end
+	    end
+
+	    vim.cmd("wshada!")
+	    fzf().marks(opts)
+	end,
+    }
+    fzf().marks(opts)
 end, { desc = 'Browse custom marks' })
 
 vim.keymap.set('n', '<leader>fh', function()

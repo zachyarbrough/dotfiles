@@ -38,6 +38,7 @@ export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --e
 
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS="--preview 'bat --color=always -n --line-range :500 {}'"
+export FZF_ALT_C_OPTS="--preview 'ls {} | head -200'"
 
 export FZF_DEFAULT_OPTS='--height 50% --layout=default --border'
 export FZF_TMUX_OPTS=' -p90%,70% '
