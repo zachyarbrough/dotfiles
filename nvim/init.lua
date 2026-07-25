@@ -14,6 +14,7 @@ vim.pack.add({
     { src = 'https://github.com/ibhagwan/fzf-lua' },
     { src = 'https://github.com/lewis6991/gitsigns.nvim' },
     { src = 'https://github.com/stevearc/oil.nvim' },
+    { src = 'https://github.com/chentoast/marks.nvim' },
     { src = 'https://github.com/zachyarbrough/anchor.nvim' },
 })
 
@@ -84,5 +85,13 @@ require('oil').setup({
     }
 })
 
+require('marks').setup({})
+-- Schedule wrapper is so the color changes occur after color scheme has loaded
+vim.schedule(function()
+  vim.api.nvim_set_hl(0, 'MarkSignNumHL', { bg = 'NONE', ctermbg = 'NONE' })
+  vim.api.nvim_set_hl(0, 'MarkSignHL', { link = 'CursorLineNr' })
+end)
+
 -- experimental Neovim 0.12 feature
 require('vim._core.ui2').enable({})
+

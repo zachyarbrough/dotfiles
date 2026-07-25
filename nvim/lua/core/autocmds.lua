@@ -37,7 +37,7 @@ vim.api.nvim_create_autocmd({ 'CmdlineLeave', 'InsertLeave' }, {
 })
 
 --------------------------------------
--- Tree-Sitter Configuration
+--- Tree-Sitter Configuration
 --------------------------------------
 
 vim.api.nvim_create_autocmd("FileType", {
@@ -58,7 +58,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 --------------------------------------
--- Markdown Formatting 
+--- Markdown Formatting 
 --------------------------------------
 -- Strike through and grey out - [-] tasks in markdown
 vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
@@ -96,9 +96,9 @@ vim.api.nvim_create_autocmd({ 'BufEnter', "BufWinEnter", "InsertLeave" }, {
     end,
 })
 
--- --------------------------------------
--- tmux
--- --------------------------------------
+---------------------------------------
+--- tmux
+---------------------------------------
 local function sync_tmux_bg()
   local bg = vim.api.nvim_get_hl(0, { name = "Normal" }).bg
   if bg then
