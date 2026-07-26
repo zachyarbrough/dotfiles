@@ -27,7 +27,7 @@ end, { desc = "Delete file from arglist" })
 for i = 1, 5 do
 	vim.keymap.set("n", "<leader>" .. i, function()
 		vim.cmd("silent! " .. i + 1 .. "argument")
-	end, { desc = "Open file for arglist " .. i + 1 })
+	end, { desc = "Open file for arglist " .. (i + 1) })
 end
 
 -- LSP keymaps
