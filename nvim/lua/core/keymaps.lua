@@ -17,17 +17,17 @@ vim.keymap.set("n", "M", "'", { desc = "Jump to Mark" })
 vim.keymap.set("n", "<leader>aa", function()
 	vim.cmd("argadd %")
 	vim.cmd("argdedup")
-end)
+end, { desc = "Add file to arglist" })
 
 vim.keymap.set("n", "<leader>ad", function()
 	vim.cmd("argdelete %")
-end)
+end, { desc = "Delete file from arglist" })
 
 -- Set keymaps for argument list <leader>{1-5}
 for i = 1, 5 do
 	vim.keymap.set("n", "<leader>" .. i, function()
 		vim.cmd("silent! " .. i + 1 .. "argument")
-	end)
+	end, { desc = "Open file for arglist " .. i + 1 })
 end
 
 -- LSP keymaps
@@ -70,6 +70,10 @@ end, { desc = "Preview hunk changes" })
 vim.keymap.set("n", "<leader>gn", function()
 	gitsigns().next_hunk()
 end, { desc = "Go to next hunk" })
+
+vim.keymap.set("n", "<leader>gN", function()
+	gitsigns().prev_hunk()
+end, { desc = "Go to previous hunk" })
 
 --------------------------------------
 --- oil.nvim
@@ -173,32 +177,10 @@ vim.keymap.set("n", "<leader>fj", function()
 end, { desc = "Browse jumpslist" })
 
 vim.keymap.set("n", "<leader>fm", function()
-	local opts = {
+	fzf().marks({
 		marks = "%a",
 		sort = true,
-		fzf_opts = {
-			["--header"] = ":: <\27[1;33mctrl-x\27[0m> to \27[38;2;250;179;135mdelete\27[0m",
-		},
-	}
-
-	opts.actions = {
-		-- Bind CTRL-X to delete the selected mark(s)
-		["ctrl-x"] = function(selected)
-			for _, entry in ipairs(selected) do
-				local mark = entry:match("^%s*([a-zA-Z])")
-				if mark then
-					vim.cmd("delmarks " .. mark)
-				end
-			end
-
-			vim.cmd("wshada!")
-
-			vim.schedule(function()
-				fzf().marks(opts)
-			end)
-		end,
-	}
-	fzf().marks(opts)
+	})
 end, { desc = "Browse custom marks" })
 
 vim.keymap.set("n", "<leader>fh", function()
