@@ -19,11 +19,5 @@ brew "fd"
 brew "bat"
 brew "aria"
 
-# LSPs
-brew "lua_language_server"
-brew "typescript_language_server"
-brew "basedpyright" # forked version of pyright, better supported (no telemetry)
-brew "vscode-langservers-extracted" # includes jsonls, html, cssls, eslint
-
 # Casks 
 cask "iterm2"
