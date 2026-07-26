@@ -120,18 +120,13 @@ local function fzf()
 	return require("fzf-lua")
 end
 
-local preview_opts = {
-	layout = "vertical",
-	vertical = "up:70%",
-}
-
 local expanded_opts = {
 	winopts = {
 		height = 0.85,
-		width = 0.80,
-		row = 0.50,
-		col = 0.50,
-		preview = preview_opts,
+		preview = {
+			layout = "vertical",
+			vertical = "up:70%",
+		},
 	},
 }
 
@@ -139,6 +134,7 @@ local expanded_opts = {
 vim.keymap.set("n", "gr", function()
 	fzf().lsp_references(vim.tbl_extend("force", expanded_opts, {
 		ignore_current_line = true,
+		previewer = "builtin",
 	}))
 end, { desc = "Browse LSP references" })
 
@@ -158,6 +154,12 @@ end, { desc = "Find files in dotfiles directory" })
 -- grep
 vim.keymap.set("n", "<leader>fg", function()
 	fzf().live_grep(vim.tbl_extend("force", expanded_opts, {
+		previewer = "builtin",
+	}))
+end, { desc = "Grep for text in current project" })
+
+vim.keymap.set("n", "<leader>fb", function()
+	fzf().lgrep_curbuf(vim.tbl_extend("force", expanded_opts, {
 		previewer = "builtin",
 	}))
 end, { desc = "Grep for text in current project" })

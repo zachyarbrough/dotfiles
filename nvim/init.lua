@@ -40,13 +40,16 @@ require("fzf-lua").setup({
 		formatter = "path.dirname_first",
 	},
 	winopts = {
-		-- Shrink and move window to bottom left of screen
-		width = 0.50,
-		height = 0.35,
-
-		row = 1.0,
-		col = 0.0,
+		height = 0.45,
+		width = 0.80,
+		row = 0.50,
+		col = 0.50,
+		preview = {
+			layout = "vertical",
+			vertical = "up:70%",
+		},
 	},
+
 	files = {
 		fzf_opts = {
 			["--exact"] = "",
@@ -92,10 +95,6 @@ require("anchor").setup({
 	picker_opts = {
 		grep = {
 			winopts = {
-				height = 0.85,
-				width = 0.80,
-				row = 0.50,
-				col = 0.50,
 				preview = {
 					layout = "vertical",
 					vertical = "up:70%",
