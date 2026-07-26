@@ -127,10 +127,20 @@ local preview_opts = {
 
 local expanded_opts = {
 	winopts = {
-		fullscreen = true,
+		height = 0.85,
+		width = 0.80,
+		row = 0.50,
+		col = 0.50,
 		preview = preview_opts,
 	},
 }
+
+-- LSP
+vim.keymap.set("n", "gr", function()
+	fzf().lsp_references(vim.tbl_extend("force", expanded_opts, {
+		ignore_current_line = true,
+	}))
+end, { desc = "Browse LSP references" })
 
 -- files
 vim.keymap.set("n", "<leader>ff", function()
@@ -153,14 +163,14 @@ vim.keymap.set("n", "<leader>fg", function()
 end, { desc = "Grep for text in current project" })
 
 -- git
-vim.keymap.set("n", "<leader>gt", function()
+vim.keymap.set("n", "<leader>gs", function()
 	fzf().git_status(vim.tbl_extend("force", expanded_opts, {
 		previewer = "git_diff",
 	}))
 end, { desc = "View git status" })
 
 vim.keymap.set("n", "<leader>gb", function()
-	fzf().git_branches({ winopts = { preview = preview_opts } })
+	fzf().git_branches(expanded_opts)
 end, { desc = "View git branches" })
 
 vim.keymap.set("n", "<leader>gc", function()
