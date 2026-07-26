@@ -24,7 +24,7 @@ vim.opt.swapfile = false -- Don't create swap files
 vim.opt.undofile = true -- Persistent undo
 
 -- Configures the behavior of the insert mode completion menu
-vim.opt.completeopt = "menu,menuone,noselect,popup"
+vim.opt.completeopt = { "fuzzy", "menuone", "noselect", "popup" }
 vim.o.autocomplete = true
 -- Make omnicomplete reference the active LSP server for suggestions
 vim.opt.complete:append("o")

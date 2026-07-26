@@ -35,9 +35,8 @@ vim.api.nvim_create_autocmd({ "CmdlineLeave", "InsertLeave" }, {
 })
 
 --------------------------------------
---- Tree-Sitter Configuration
+--- Tree-Sitter configuration
 --------------------------------------
-
 vim.api.nvim_create_autocmd("FileType", {
 	group = vim.api.nvim_create_augroup("NativeTreeSitterAll", { clear = true }),
 	pattern = "*", -- Matches every single file type
@@ -56,7 +55,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 --------------------------------------
---- Markdown Formatting
+--- Markdown formatting
 --------------------------------------
 -- Strike through and grey out - [-] tasks in markdown
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
