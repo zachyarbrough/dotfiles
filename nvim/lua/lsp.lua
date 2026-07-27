@@ -18,6 +18,8 @@ vim.list_extend(tools, lsps)
 
 local formatters = {
 	"stylua",
+	"prettier",
+	"prettierd",
 }
 vim.list_extend(tools, formatters)
 

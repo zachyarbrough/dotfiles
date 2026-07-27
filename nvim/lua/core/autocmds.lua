@@ -8,7 +8,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- Toggle realtive and absolute line numbers
-local number_toggle = vim.api.nvim_create_augroup("NumberToggle", { clear = true })
+local number_toggle = vim.api.nvim_create_augroup("number-toggle", { clear = true })
 
 vim.api.nvim_create_autocmd({ "CmdlineEnter", "InsertEnter" }, {
 	desc = "Toggl absolute line numbers",
@@ -38,7 +38,7 @@ vim.api.nvim_create_autocmd({ "CmdlineLeave", "InsertLeave" }, {
 --- Tree-Sitter configuration
 --------------------------------------
 vim.api.nvim_create_autocmd("FileType", {
-	group = vim.api.nvim_create_augroup("NativeTreeSitterAll", { clear = true }),
+	group = vim.api.nvim_create_augroup("native-treesitter-all", { clear = true }),
 	pattern = "*", -- Matches every single file type
 	callback = function(args)
 		-- Don't open tree-sitter if file is larger than 1MB
@@ -114,11 +114,17 @@ local function sync_tmux_bg()
 	end
 end
 
+local tmux_group = vim.api.nvim_create_augroup("tmux-background", { clear = true })
+
 vim.api.nvim_create_autocmd("VimEnter", {
+	desc = "Sync tmux status background with nvim or terminal",
+	group = tmux_group,
 	callback = sync_tmux_bg,
 })
 
 vim.api.nvim_create_autocmd("VimLeavePre", {
+	desc = "Set tmux status background to terminal",
+	group = tmux_group,
 	callback = function()
 		vim.fn.system(
 			"tmux set -g status-style 'bg=default,fg=white'; "
