@@ -94,7 +94,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter", "InsertLeave" }, {
 })
 
 ---------------------------------------
---- tmux
+--- TMUX
 ---------------------------------------
 local function sync_tmux_bg()
 	local bg = vim.api.nvim_get_hl(0, { name = "Normal" }).bg

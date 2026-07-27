@@ -16,6 +16,7 @@ local modes = {
 	["\22"] = { " V-BLOCK ", "StatusVisual", cp.mauve },
 
 	c = { " COMMAND ", "StatusCommand", cp.peach },
+
 	R = { " REPLACE ", "StatusReplace", cp.red },
 }
 
@@ -23,15 +24,15 @@ for _, m in pairs(modes) do
 	vim.api.nvim_set_hl(0, m[2], { fg = cp.mantle, bg = m[3], bold = true })
 end
 
--- Get the mode and line_number with correct colors
+-- Get the mode and row:column numbers with correct colors
 local function get_statusline_mode()
 	local code = vim.api.nvim_get_mode().mode:sub(1, 1)
 	local m = modes[code] or modes.n
 
 	local mode = string.format("%%#%s#%s%%*", m[2], m[1])
-	local line_num = string.format("%%#%s# %%L:%%c %%*", m[2], m[1])
+	local row_col = string.format("%%#%s# %%L:%%c %%*", m[2], m[1])
 
-	return mode, line_num
+	return mode, row_col
 end
 
 -- Get the git branch and added, modified, deleted lines
@@ -86,13 +87,13 @@ local function update_statusline()
 	local cur_win = vim.api.nvim_get_current_win()
 	for _, win in ipairs(vim.api.nvim_list_wins()) do
 		if vim.api.nvim_win_get_config(win).relative == "" then -- skip floats
-			local mode, line_num
+			local mode, row_col
 
 			if win == cur_win then
-				mode, line_num = get_statusline_mode()
+				mode, row_col = get_statusline_mode()
 			else
 				mode = ""
-				line_num = " %L:%c"
+				row_col = " %L:%c"
 			end
 
 			vim.wo[win].statusline = mode
@@ -100,7 +101,7 @@ local function update_statusline()
 				.. get_git_status()
 				.. get_lsp_status()
 				.. " %= %y %p%% "
-				.. line_num
+				.. row_col
 		end
 	end
 end
