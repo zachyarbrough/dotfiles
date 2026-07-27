@@ -95,13 +95,7 @@ end)
 require("anchor").setup({
 	picker_opts = {
 		grep = {
-			winopts = {
-				height = 0.85,
-				preview = {
-					lagyout = "vertical",
-					vertical = "up:70%",
-				},
-			},
+			winopts = { height = 0.85 },
 			previewer = "builtin",
 		},
 	},
