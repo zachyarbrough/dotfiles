@@ -4,10 +4,17 @@ local cp = ok and palettes.get_palette()
 
 local modes = {
 	n = { " NORMAL ", "StatusNormal", cp.blue },
+	r = { " NORMAL ", "StatusNormal", cp.blue },
+	rm = { " NORMAL ", "StatusNormal", cp.blue },
+	no = { " NORMAL ", "StatusNormal", cp.blue },
+
 	i = { " INSERT ", "StatusInsert", cp.green },
+	t = { " TERMINAL ", "StatusInsert", cp.green },
+
 	v = { " VISUAL ", "StatusVisual", cp.mauve },
 	V = { " V-LINE ", "StatusVisual", cp.mauve },
 	["\22"] = { " V-BLOCK ", "StatusVisual", cp.mauve },
+
 	c = { " COMMAND ", "StatusCommand", cp.peach },
 	R = { " REPLACE ", "StatusReplace", cp.red },
 }
@@ -19,7 +26,7 @@ end
 -- Get the mode and line_number with correct colors
 local function get_statusline_mode()
 	local code = vim.api.nvim_get_mode().mode:sub(1, 1)
-	local m = modes[code] or { " NORMAL ", "DiagnosticOk" }
+	local m = modes[code] or modes.n
 
 	local mode = string.format("%%#%s#%s%%*", m[2], m[1])
 	local line_num = string.format("%%#%s# %%L:%%c %%*", m[2], m[1])
