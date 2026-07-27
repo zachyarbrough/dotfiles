@@ -28,6 +28,8 @@ vim.opt.completeopt = { "fuzzy", "menuone", "noselect", "popup" }
 vim.o.autocomplete = true
 -- Make omnicomplete reference the active LSP server for suggestions
 vim.opt.complete:append("o")
+-- Hide message "match 1 of n" while typing in insert mode
+vim.opt.shortmess:append("c")
 
 -- Netrw Explorer
 vim.g.netrw_liststyle = 3
@@ -36,3 +38,6 @@ vim.g.netrw_liststyle = 3
 vim.diagnostic.config({
 	virtual_text = true,
 })
+
+vim.opt.laststatus = 2 -- Always show the status line
+vim.opt.showmode = false -- Hide "-- MODE --" in the command line
