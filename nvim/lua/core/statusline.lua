@@ -37,6 +37,11 @@ set_statusline_highlights()
 -- Get the mode and row:column numbers with correct colors
 local function get_statusline_mode()
 	local code = vim.api.nvim_get_mode().mode:sub(1, 1)
+	-- Prevents the mode from incorrectly displaying terminal
+	if code == "t" and vim.bo.buftype ~= "terminal" then
+		code = "n"
+	end
+
 	local m = modes[code] or modes.n
 
 	local mode = string.format("%%#%s#%s%%*", m[2], m[1])
@@ -101,18 +106,17 @@ local function update_statusline()
 
 			if win == cur_win then
 				mode, row_col = get_statusline_mode()
-			else
-				mode = ""
-				row_col = " %L:%c"
-			end
 
-			vim.wo[win].statusline = mode
-				.. " %f "
-				.. get_git_status()
-				.. "%m%r"
-				.. get_lsp_status()
-				.. " %= %y %p%% "
-				.. row_col
+				vim.wo[win].statusline = mode
+					.. " %f "
+					.. get_git_status()
+					.. "%m%r"
+					.. get_lsp_status()
+					.. " %= %y %p%% "
+					.. row_col
+			else
+				vim.wo[win].statusline = "%f"
+			end
 		end
 	end
 end
@@ -145,8 +149,7 @@ vim.api.nvim_create_autocmd({ "ModeChanged", "BufEnter", "WinEnter", "TermClose"
 	desc = "Update statusline mode indicator",
 	group = statusline_group,
 	callback = function()
-		-- Schedule update due to race-prone errors with the terminal
-		vim.schedule(update_statusline)
+		update_statusline()
 	end,
 })
 
