@@ -111,6 +111,9 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter", "InsertLeave" }, {
 --- TMUX
 ---------------------------------------
 local function sync_tmux_bg()
+	if vim.env.TMUX_POPUP then
+		return
+	end
 	local bg = vim.api.nvim_get_hl(0, { name = "Normal" }).bg
 	if bg then
 		local hex = string.format("#%06x", bg)
@@ -139,8 +142,10 @@ vim.api.nvim_create_autocmd("VimEnter", {
 vim.api.nvim_create_autocmd("VimLeavePre", {
 	desc = "Set tmux status background to terminal",
 	group = tmux_group,
-	buffer = 0,
 	callback = function()
+		if vim.env.TMUX_POPUP then
+			return
+		end
 		vim.fn.system(
 			"tmux set -g status-style 'bg=default,fg=white'; "
 				.. "tmux set -g message-style 'bg=default,fg=white'; "
