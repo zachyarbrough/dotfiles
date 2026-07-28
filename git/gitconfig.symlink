@@ -1,8 +1,23 @@
-# Local/private config goes in the include
 [include]
+        # Private config
         path = ~/.gitconfig.local
 [help]
 	# Automatically correct and execute mistyped commands.
 	autocorrect = 1
 [init]
 	defaultBranch = main
+[pull]
+    # Runs rebase instead of merge when pulling for a cleaner commit history
+	rebase = true
+[alias]
+	st = status
+	co = checkout
+	br = branch
+	cm = commit
+    # Visual, structured graph log
+    lg = log --graph --oneline --decorate --all
+[pager]
+	branch = false
+[core]
+    editor = nvim
+    filemode = false

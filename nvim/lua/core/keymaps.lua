@@ -37,6 +37,14 @@ vim.keymap.set("n", "gh", vim.lsp.buf.hover, { desc = "View quick definition" })
 -- Open diagnostic float on normal mode <leader>e
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 
+-- Quickfix navigation
+vim.keymap.set("n", "[q", function()
+	vim.cmd("cnext")
+end, { desc = "Jump to next quickfix item" })
+vim.keymap.set("n", "]q", function()
+	vim.cmd("cprev")
+end, { desc = "Jump to prev quickfix item" })
+
 --------------------------------------
 -- conform.nvim
 --------------------------------------
