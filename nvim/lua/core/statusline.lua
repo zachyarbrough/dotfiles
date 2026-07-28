@@ -1,28 +1,38 @@
-local ok, palettes = pcall(require, "catppuccin.palettes")
-local cp = ok and palettes.get_palette()
-	or { blue = "#89b4fa", green = "#a6e3a1", mauve = "#f5c2e7", peach = "#fab387", red = "#f38ba8", mantle = "#181825" }
+local modes
 
-local modes = {
-	n = { " NORMAL ", "StatusNormal", cp.blue },
-	r = { " NORMAL ", "StatusNormal", cp.blue },
-	rm = { " NORMAL ", "StatusNormal", cp.blue },
-	no = { " NORMAL ", "StatusNormal", cp.blue },
+-- Map the modes object with the appropriate colors
+local function set_statusline_highlights()
+	local ok, palettes = pcall(require, "catppuccin.palettes")
+	local cp = ok and palettes.get_palette()
+		or {
+			blue = "#89b4fa",
+			green = "#a6e3a1",
+			mauve = "#f5c2e7",
+			peach = "#fab387",
+			red = "#f38ba8",
+			mantle = "#181825",
+		}
 
-	i = { " INSERT ", "StatusInsert", cp.green },
-	t = { " TERMINAL ", "StatusInsert", cp.green },
+	modes = {
+		n = { " NORMAL ", "StatusNormal", cp.blue },
+		r = { " NORMAL ", "StatusNormal", cp.blue },
+		rm = { " NORMAL ", "StatusNormal", cp.blue },
+		no = { " NORMAL ", "StatusNormal", cp.blue },
+		i = { " INSERT ", "StatusInsert", cp.green },
+		t = { " TERMINAL ", "StatusInsert", cp.green },
+		v = { " VISUAL ", "StatusVisual", cp.mauve },
+		V = { " V-LINE ", "StatusVisual", cp.mauve },
+		["\22"] = { " V-BLOCK ", "StatusVisual", cp.mauve },
+		c = { " COMMAND ", "StatusCommand", cp.peach },
+		R = { " REPLACE ", "StatusReplace", cp.red },
+	}
 
-	v = { " VISUAL ", "StatusVisual", cp.mauve },
-	V = { " V-LINE ", "StatusVisual", cp.mauve },
-	["\22"] = { " V-BLOCK ", "StatusVisual", cp.mauve },
-
-	c = { " COMMAND ", "StatusCommand", cp.peach },
-
-	R = { " REPLACE ", "StatusReplace", cp.red },
-}
-
-for _, m in pairs(modes) do
-	vim.api.nvim_set_hl(0, m[2], { fg = cp.mantle, bg = m[3], bold = true })
+	for _, m in pairs(modes) do
+		vim.api.nvim_set_hl(0, m[2], { fg = cp.mantle, bg = m[3], bold = true })
+	end
 end
+
+set_statusline_highlights()
 
 -- Get the mode and row:column numbers with correct colors
 local function get_statusline_mode()
@@ -110,26 +120,34 @@ end
 -- Update git visual when gitsigns updates and changes
 local statusline_group = vim.api.nvim_create_augroup("statusline-refresh", { clear = true })
 
+-- Reapply mode highlights on colorscheme change, then redraw
+vim.api.nvim_create_autocmd("ColorScheme", {
+	desc = "Reapply statusline mode highlights on colorscheme change",
+	group = statusline_group,
+	callback = function()
+		set_statusline_highlights()
+		update_statusline()
+	end,
+})
+
 -- Update git visual when git signs updates and changes
 vim.api.nvim_create_autocmd("User", {
 	desc = "Update statusline  indicator",
 	group = statusline_group,
 	pattern = { "GitSignsUpdate", "GitSignsChanged" },
-	callback = update_statusline,
-})
-
--- Update diagnostic visual when diagnostics changes
-vim.api.nvim_create_autocmd("DiagnosticChanged", {
-	desc = "Update statusline diagnostic indicator",
-	group = statusline_group,
-	callback = update_statusline,
+	callback = function()
+		update_statusline()
+	end,
 })
 
 -- Update mode visual when changing modes and entering a buffer
-vim.api.nvim_create_autocmd({ "ModeChanged", "BufEnter", "WinEnter" }, {
+vim.api.nvim_create_autocmd({ "ModeChanged", "BufEnter", "WinEnter", "TermClose", "DiagnosticChanged" }, {
 	desc = "Update statusline mode indicator",
 	group = statusline_group,
-	callback = update_statusline,
+	callback = function()
+		-- Schedule update due to race-prone errors with the terminal
+		vim.schedule(update_statusline)
+	end,
 })
 
 update_statusline()
