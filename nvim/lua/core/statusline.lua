@@ -97,8 +97,9 @@ local function update_statusline()
 			end
 
 			vim.wo[win].statusline = mode
-				.. " %f %m %r"
+				.. " %f "
 				.. get_git_status()
+				.. "%m%r"
 				.. get_lsp_status()
 				.. " %= %y %p%% "
 				.. row_col

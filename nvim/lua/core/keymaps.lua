@@ -67,9 +67,13 @@ vim.keymap.set("n", "<leader>gp", function()
 	gitsigns().preview_hunk()
 end, { desc = "Preview hunk changes" })
 
-vim.keymap.set("n", "<leader>gs", function()
+vim.keymap.set("n", "<leader>ga", function()
 	gitsigns().stage_hunk()
 end, { desc = "Stage hunk changes" })
+
+vim.keymap.set("n", "<leader>gA", function()
+	gitsigns().stage_buffer()
+end, { desc = "Stage buffer changes" })
 
 -- Navigat git hunks without overriding :diff view keymaps
 vim.keymap.set("n", "]c", function()
@@ -178,7 +182,7 @@ vim.keymap.set("n", "<leader>fb", function()
 end, { desc = "Grep for text in current project" })
 
 -- git
-vim.keymap.set("n", "<leader>gS", function()
+vim.keymap.set("n", "<leader>gs", function()
 	fzf().git_status(vim.tbl_extend("force", expanded_opts, {
 		previewer = "git_diff",
 	}))
