@@ -15,6 +15,7 @@ vim.pack.add({
 	{ src = "https://github.com/ibhagwan/fzf-lua" },
 	{ src = "https://github.com/lewis6991/gitsigns.nvim" },
 	{ src = "https://github.com/stevearc/oil.nvim" },
+	{ src = "https://github.com/nvim-mini/mini.surround" },
 	{ src = "https://github.com/chentoast/marks.nvim" },
 	{ src = "https://github.com/zachyarbrough/anchor.nvim" },
 })
@@ -93,6 +94,12 @@ require("oil").setup({
 	view_options = {
 		natural_order = true,
 	},
+})
+
+require("mini.surround").setup({
+	highlight_duration = 500,
+	silent = false,
+	respect_selection_type = false,
 })
 
 require("marks").setup({})
