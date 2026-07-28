@@ -37,14 +37,6 @@ vim.keymap.set("n", "gh", vim.lsp.buf.hover, { desc = "View quick definition" })
 -- Open diagnostic float on normal mode <leader>e
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 
--- Quickfix navigation
-vim.keymap.set("n", "[q", function()
-	vim.cmd("cnext")
-end, { desc = "Jump to next quickfix item" })
-vim.keymap.set("n", "]q", function()
-	vim.cmd("cprev")
-end, { desc = "Jump to prev quickfix item" })
-
 --------------------------------------
 -- conform.nvim
 --------------------------------------
@@ -75,12 +67,25 @@ vim.keymap.set("n", "<leader>gp", function()
 	gitsigns().preview_hunk()
 end, { desc = "Preview hunk changes" })
 
-vim.keymap.set("n", "<leader>gn", function()
-	gitsigns().next_hunk()
+vim.keymap.set("n", "<leader>gs", function()
+	gitsigns().stage_hunk()
+end, { desc = "Stage hunk changes" })
+
+-- Navigat git hunks without overriding :diff view keymaps
+vim.keymap.set("n", "]c", function()
+	if vim.wo.diff then
+		vim.cmd.normal({ "]c", bang = true })
+	else
+		gitsigns().nav_hunk("next")
+	end
 end, { desc = "Go to next hunk" })
 
-vim.keymap.set("n", "<leader>gN", function()
-	gitsigns().prev_hunk()
+vim.keymap.set("n", "[c", function()
+	if vim.wo.diff then
+		vim.cmd.normal({ "[c", bang = true })
+	else
+		gitsigns().nav_hunk("prev")
+	end
 end, { desc = "Go to previous hunk" })
 
 --------------------------------------
@@ -173,7 +178,7 @@ vim.keymap.set("n", "<leader>fb", function()
 end, { desc = "Grep for text in current project" })
 
 -- git
-vim.keymap.set("n", "<leader>gs", function()
+vim.keymap.set("n", "<leader>gS", function()
 	fzf().git_status(vim.tbl_extend("force", expanded_opts, {
 		previewer = "git_diff",
 	}))
