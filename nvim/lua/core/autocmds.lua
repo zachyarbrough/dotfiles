@@ -13,7 +13,6 @@ local number_toggle = vim.api.nvim_create_augroup("number-toggle", { clear = tru
 vim.api.nvim_create_autocmd({ "CmdlineEnter", "InsertEnter" }, {
 	desc = "Toggl absolute line numbers",
 	group = number_toggle,
-	pattern = "*",
 	callback = function()
 		if vim.wo.number then
 			vim.wo.relativenumber = false
@@ -23,9 +22,8 @@ vim.api.nvim_create_autocmd({ "CmdlineEnter", "InsertEnter" }, {
 })
 
 vim.api.nvim_create_autocmd({ "CmdlineLeave", "InsertLeave" }, {
-	desc = "Toggl relative line numbers",
+	desc = "Toggle relative line numbers",
 	group = number_toggle,
-	pattern = "*",
 	callback = function()
 		if vim.wo.number then
 			vim.wo.relativenumber = true
@@ -38,10 +36,9 @@ vim.api.nvim_create_autocmd({ "CmdlineLeave", "InsertLeave" }, {
 --- Tree-Sitter configuration
 --------------------------------------
 vim.api.nvim_create_autocmd("FileType", {
+	desc = "Don't open treesitter if file is larger than 1MB",
 	group = vim.api.nvim_create_augroup("native-treesitter-all", { clear = true }),
-	pattern = "*", -- Matches every single file type
 	callback = function(args)
-		-- Don't open tree-sitter if file is larger than 1MB
 		local max_filesize = 1024 * 1024 -- 1 MB
 		local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(args.buf))
 
@@ -57,18 +54,35 @@ vim.api.nvim_create_autocmd("FileType", {
 --------------------------------------
 --- Markdown formatting
 --------------------------------------
--- Strike through and grey out - [-] tasks in markdown
+local markdown_strike_tasks = vim.api.nvim_create_augroup("markdown-strike-tasks", { clear = true })
+
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
 	desc = "Strikethrough and grey out - [-] tasks in markdown",
-	group = vim.api.nvim_create_augroup("markdown-strike-tasks", { clear = true }),
+	group = markdown_strike_tasks,
 	pattern = { "*.md" },
 	callback = function()
-		vim.fn.matchadd("markdownStrike", "- \\[-\\].*")
 		local comment = vim.api.nvim_get_hl(0, { name = "Comment" })
 		vim.api.nvim_set_hl(0, "markdownStrike", {
 			fg = comment.fg,
 			strikethrough = true,
 		})
+
+		if vim.w.markdown_strike_match then
+			pcall(vim.fn.matchdelete, vim.w.markdown_strike_match)
+		end
+		vim.w.markdown_strike_match = vim.fn.matchadd("markdownStrike", [[- \[-\].*]])
+	end,
+})
+
+vim.api.nvim_create_autocmd({ "BufLeave", "BufWinLeave" }, {
+	desc = "Clear strikethrough match when leaving markdown buffer",
+	group = markdown_strike_tasks,
+	pattern = { "*.md" },
+	callback = function()
+		if vim.w.markdown_strike_match then
+			pcall(vim.fn.matchdelete, vim.w.markdown_strike_match)
+			vim.w.markdown_strike_match = nil
+		end
 	end,
 })
 
@@ -125,6 +139,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
 vim.api.nvim_create_autocmd("VimLeavePre", {
 	desc = "Set tmux status background to terminal",
 	group = tmux_group,
+	buffer = 0,
 	callback = function()
 		vim.fn.system(
 			"tmux set -g status-style 'bg=default,fg=white'; "
