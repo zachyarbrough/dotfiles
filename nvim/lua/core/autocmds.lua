@@ -7,7 +7,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
--- Toggle realtive and absolute line numbers
+-- Toggle absolute line numbers in Insert/Command mode
 local number_toggle = vim.api.nvim_create_augroup("number-toggle", { clear = true })
 
 vim.api.nvim_create_autocmd({ "CmdlineEnter", "InsertEnter" }, {
@@ -21,6 +21,7 @@ vim.api.nvim_create_autocmd({ "CmdlineEnter", "InsertEnter" }, {
 	end,
 })
 
+-- Toggle relative line numbers
 vim.api.nvim_create_autocmd({ "CmdlineLeave", "InsertLeave" }, {
 	desc = "Toggle relative line numbers",
 	group = number_toggle,
@@ -28,6 +29,18 @@ vim.api.nvim_create_autocmd({ "CmdlineLeave", "InsertLeave" }, {
 		if vim.wo.number then
 			vim.wo.relativenumber = true
 			vim.cmd.redraw()
+		end
+	end,
+})
+
+-- Enable auto completion when typing commands in the command line
+vim.api.nvim_create_autocmd("CmdlineChanged", {
+	desc = "Enable auto complete when typing commands",
+	group = vim.api.nvim_create_augroup("cmdline-auto-complete", { clear = true }),
+	pattern = ":",
+	callback = function()
+		if vim.fn.wildmenumode() == 0 then
+			vim.fn.wildtrigger()
 		end
 	end,
 })

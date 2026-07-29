@@ -31,6 +31,13 @@ vim.opt.complete:append("o")
 -- Hide message "match 1 of n" while typing in insert mode
 vim.opt.shortmess:append("c")
 
+-- Enable cmdline auto completion
+vim.opt.wildmenu = true
+-- show matches without auto-inserting
+vim.opt.wildmode = { "noselect:lastused", "full" }
+-- render completions as a popup menu
+vim.opt.wildoptions = "pum"
+
 -- Netrw Explorer
 vim.g.netrw_liststyle = 3
 
