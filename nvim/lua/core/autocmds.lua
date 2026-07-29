@@ -1,7 +1,6 @@
 -- Highlight yanked text for better visual feedback
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
-	group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
 	callback = function()
 		vim.highlight.on_yank()
 	end,
@@ -36,7 +35,6 @@ vim.api.nvim_create_autocmd({ "CmdlineLeave", "InsertLeave" }, {
 -- Enable auto completion when typing commands in the command line
 vim.api.nvim_create_autocmd("CmdlineChanged", {
 	desc = "Enable auto complete when typing commands",
-	group = vim.api.nvim_create_augroup("cmdline-auto-complete", { clear = true }),
 	pattern = ":",
 	callback = function()
 		if vim.fn.wildmenumode() == 0 then
@@ -45,12 +43,33 @@ vim.api.nvim_create_autocmd("CmdlineChanged", {
 	end,
 })
 
+-- Restore cursor to file position in previous editing session
+vim.api.nvim_create_autocmd("BufReadPost", {
+	desc = "Restore cursor to file position in previous editing session",
+	callback = function(args)
+		local mark = vim.api.nvim_buf_get_mark(args.buf, '"')
+		local line_count = vim.api.nvim_buf_line_count(args.buf)
+		if mark[1] > 0 and mark[1] <= line_count then
+			vim.cmd('normal! g`"zz')
+		end
+	end,
+})
+
+-- Open help files vertically
+vim.api.nvim_create_autocmd("FileType", {
+	desc = "Open help files vertically",
+	pattern = "help",
+	callback = function()
+		vim.bo.bufhidden = "unload"
+		vim.cmd.wincmd("L")
+	end,
+})
+
 --------------------------------------
 --- Tree-Sitter configuration
 --------------------------------------
 vim.api.nvim_create_autocmd("FileType", {
 	desc = "Don't open treesitter if file is larger than 1MB",
-	group = vim.api.nvim_create_augroup("native-treesitter-all", { clear = true }),
 	callback = function(args)
 		local max_filesize = 1024 * 1024 -- 1 MB
 		local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(args.buf))
@@ -146,12 +165,14 @@ end
 
 local tmux_group = vim.api.nvim_create_augroup("tmux-background", { clear = true })
 
+-- Set tmux statusline bg to match nvim
 vim.api.nvim_create_autocmd("VimEnter", {
 	desc = "Sync tmux status background with nvim or terminal",
 	group = tmux_group,
 	callback = sync_tmux_bg,
 })
 
+-- Set tmux statusline bg to match the terminal
 vim.api.nvim_create_autocmd("VimLeavePre", {
 	desc = "Set tmux status background to terminal",
 	group = tmux_group,
