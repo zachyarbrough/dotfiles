@@ -11,10 +11,6 @@ create_symlinks () {
   ln -sfn $HOME/.dotfiles/nvim $HOME/.config/nvim
   ln -sfn $HOME/.dotfiles/tmux $HOME/.config/tmux
 
-  # Creates symlink for docker config
-  mkdir -p $HOME/.docker
-  ln -sfn $HOME/.dotfiles/docker/config.json.symlink $HOME/.docker/config.json
-
   # Creates symlink for bash scripts
   ln -sfn $HOME/.dotfiles/bin $HOME/
 }
@@ -27,11 +23,35 @@ setup_brew_files () {
   brew bundle --file $HOME/.dotfiles/homebrew/Brewfile
 }
 
+# TODO revisit this once installations on different OS is needed
+# Add docker-compose to the cli plugin list in config.json
+setup_docker () {
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    mkdir -p "$HOME/.docker"
+
+    if ! grep -q "cliPluginsExtraDirs" "$HOME/.docker/config.json" 2>/dev/null; then
+        cat > "$HOME/.docker/config.json" <<EOF
+  {
+  "auth": {},
+  "currentContext": "colima",
+  "cliPluginsExtraDirs": [
+    "/opt/homebrew/lib/docker/cli-plugins"
+  ]
+  }
+EOF
+    fi
+  fi
+}
+
 start_cron_jobs () {
     # Create a cron job for git-backup.sh that will run every hour
     # echo "0 * * * * $HOME/bin/git-backup.sh $HOME/Documents/notes" | crontab -
+    return 
 }
 
 create_symlinks
+
 setup_brew_files
+setup_docker
+
 start_cron_jobs
