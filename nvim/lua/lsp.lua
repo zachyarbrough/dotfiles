@@ -5,7 +5,6 @@ local registry = require("mason-registry")
 
 local tools = {}
 
--- TODO: set up eslint if necessary for job
 local lsps = {
 	"lua-language-server",
 	"basedpyright",

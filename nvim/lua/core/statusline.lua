@@ -54,11 +54,14 @@ end
 local function get_git_status()
 	local gitsigns = vim.b.gitsigns_status_dict
 	local branch = vim.b.gitsigns_head
-	if branch == nil then
-		branch = vim.fn.systemlist("git branch --show-current 2>/dev/null")[1]
+	if branch == nil or branch == "" then
+		local result = vim.fn.systemlist("git branch --show-current 2>/dev/null")[1]
+		branch = result or ""
 	end
 
-	if not gitsigns then
+	if branch == "" then
+		return ""
+	elseif not gitsigns then
 		return "[" .. branch .. "]"
 	end
 

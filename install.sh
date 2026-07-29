@@ -2,22 +2,26 @@
 
 create_symlinks () {
   # Creates symlinks for config files
-  ln -s $HOME/.dotfiles/zsh/zshrc.symlink $HOME/.zshrc
-  ln -s $HOME/.dotfiles/git/gitconfig.symlink $HOME/.gitconfig
-  ln -s $HOME/.dotfiles/git/gitconfig.local.symlink $HOME/.gitconfig.local
+  ln -sfn $HOME/.dotfiles/zsh/zshrc.symlink $HOME/.zshrc
+  ln -sfn $HOME/.dotfiles/git/gitconfig.symlink $HOME/.gitconfig
+  ln -sfn $HOME/.dotfiles/git/gitconfig.local.symlink $HOME/.gitconfig.local
 
   # Creates symlinks inside .config directory 
   mkdir $HOME/.config
-  ln -s $HOME/.dotfiles/nvim $HOME/.config/nvim
-  ln -s $HOME/.dotfiles/tmux $HOME/.config/tmux
+  ln -sfn $HOME/.dotfiles/nvim $HOME/.config/nvim
+  ln -sfn $HOME/.dotfiles/tmux $HOME/.config/tmux
+
+  # Creates symlink for docker config
+  mkdir -p $HOME/.docker
+  ln -sfn $HOME/.dotfiles/docker/config.json.symlink $HOME/.docker/config.json
 
   # Creates symlink for bash scripts
-  ln -s $HOME/.dotfiles/bin $HOME/
+  ln -sfn $HOME/.dotfiles/bin $HOME/
 }
 
 setup_brew_files () {
   # Installs homebrew
-  -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   
   # Installs dependencies based on the Brewfile
   brew bundle --file $HOME/.dotfiles/homebrew/Brewfile
