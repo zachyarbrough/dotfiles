@@ -38,6 +38,9 @@ vim.opt.wildmode = { "noselect:lastused", "full" }
 -- render completions as a popup menu
 vim.opt.wildoptions = "pum"
 
+vim.opt_local.foldenable = true
+vim.opt_local.foldlevelstart = 99
+
 -- Netrw Explorer
 vim.g.netrw_liststyle = 3
 
