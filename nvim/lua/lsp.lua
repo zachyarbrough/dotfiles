@@ -19,6 +19,7 @@ local formatters = {
 	"stylua",
 	"prettier",
 	"prettierd",
+	"ruff",
 }
 vim.list_extend(tools, formatters)
 

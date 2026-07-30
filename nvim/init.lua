@@ -39,6 +39,9 @@ require("conform").setup({
 
 		-- Lua Standard
 		lua = { "stylua" },
+
+		-- Python Standard
+		python = { "ruff_format", "ruff_organize_imports" },
 	},
 	format_on_save = {
 		timeout_ms = 500,
