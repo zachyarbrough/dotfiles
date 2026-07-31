@@ -9,9 +9,11 @@ local lsps = {
 	"lua-language-server",
 	"basedpyright",
 	"typescript-language-server",
-	"json-lsp",
+	"eslint-lsp",
 	"html-lsp",
 	"css-lsp",
+	"tailwindcss-language-server",
+	"json-lsp",
 }
 vim.list_extend(tools, lsps)
 
@@ -61,4 +63,4 @@ vim.lsp.config("basedpyright", {
 	},
 })
 
-vim.lsp.enable({ "lua_ls", "ts_ls", "basedpyright", "jsonls", "html", "cssls" })
+vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "basedpyright", "jsonls", "html", "cssls", "tailwindcss" })
