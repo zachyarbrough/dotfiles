@@ -63,4 +63,13 @@ vim.lsp.config("basedpyright", {
 	},
 })
 
-vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "basedpyright", "jsonls", "html", "cssls", "tailwindcss" })
+vim.lsp.enable({
+	"lua_ls",
+	"basedpyright",
+	"ts_ls",
+	"eslint",
+	"html",
+	"cssls",
+	"tailwindcss",
+	"jsonls",
+})
