@@ -108,10 +108,6 @@ vim.keymap.set("n", "<leader>al", function()
 	anchor().toggle_list()
 end, { desc = "Open anchor list" })
 
-vim.keymap.set("n", "<leader>gw", function()
-	anchor().toggle_worktrees()
-end, { desc = "Open git worktrees list" })
-
 vim.keymap.set("n", "<leader>f0", function()
 	anchor().return_to_cwd()
 end, { desc = "Return back to cwd" })
