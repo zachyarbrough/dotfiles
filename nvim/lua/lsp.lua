@@ -37,14 +37,17 @@ end
 --- Configuration
 --------------------------------------
 vim.lsp.config("lua_ls", {
-	root_markers = { ".git" },
+	root_markers = { ".git", ".luarc.json", ".luarc.jsonc" },
 	settings = {
 		Lua = {
 			runtime = {
 				version = "LuaJIT",
 			},
 			workspace = {
-				library = vim.api.nvim_get_runtime_file("", true),
+				library = {
+					vim.api.nvim_get_runtime_file("", true),
+					"${3rd}/love2d/library",
+				},
 				checkThirdParty = false,
 			},
 			diagnostics = {

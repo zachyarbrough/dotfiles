@@ -155,5 +155,3 @@ vim.api.nvim_create_autocmd({ "ModeChanged", "BufEnter", "WinEnter", "TermClose"
 		update_statusline()
 	end,
 })
-
-update_statusline()

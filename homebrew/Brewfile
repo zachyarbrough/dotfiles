@@ -22,3 +22,4 @@ brew "docker"
 
 # Casks 
 cask "iterm2"
+cask "love2d"
