@@ -46,7 +46,6 @@ vim.lsp.config("lua_ls", {
 			workspace = {
 				library = {
 					vim.api.nvim_get_runtime_file("", true),
-					"${3rd}/love2d/library",
 				},
 				checkThirdParty = false,
 			},
